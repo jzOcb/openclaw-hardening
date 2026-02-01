@@ -134,10 +134,10 @@ OpenClaw默认用同一个模型处理所有任务。如果你用的是Claude Op
       model: { primary: "anthropic/claude-opus-4-5" },
       
       // Sub-agent用便宜模型
-      subagents: { model: "anthropic/claude-sonnet-4" },
+      subagents: { model: "anthropic/claude-sonnet-4-5" },
       
-      // Fallback链（主模型限流时降级）
-      fallbacks: ["anthropic/claude-sonnet-4"],
+      // 注意：fallbacks 在 2026.1.24-1 版本不支持
+      // 需要时用 /model 命令手动切换
       
       // 心跳间隔（55min保持1h缓存热）
       heartbeat: { every: "55m" },

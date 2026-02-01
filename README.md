@@ -135,10 +135,10 @@ Merge into `~/.openclaw/openclaw.json`:
       model: { primary: "anthropic/claude-opus-4-5" },
       
       // Cheaper model for sub-agents
-      subagents: { model: "anthropic/claude-sonnet-4" },
+      subagents: { model: "anthropic/claude-sonnet-4-5" },
       
-      // Fallback chain (degrades when primary is rate-limited)
-      fallbacks: ["anthropic/claude-sonnet-4"],
+      // NOTE: fallbacks not supported in 2026.1.24-1
+      // Use /model command to switch manually if needed
       
       // Heartbeat interval (55min keeps 1h cache warm)
       heartbeat: { every: "55m" },
