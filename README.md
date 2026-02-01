@@ -1,195 +1,194 @@
 # 🔒 OpenClaw Hardening Kit
 
-安全加固 + Token优化，一键搞定你的 OpenClaw / Clawdbot 部署。
+Security hardening + token optimization for your OpenClaw / Clawdbot deployment. One kit, production-ready.
 
-[🇬🇧 English README](./README_EN.md)
+> **Who is this for?** Anyone running OpenClaw on a VPS or cloud server. Local Mac users can still benefit from the token optimization sections.
 
-> **适用人群：** 在VPS/云服务器上跑OpenClaw的用户。本地Mac用户也可参考Token优化部分。
+[🇨🇳 中文版 README](./README_CN.md)
 
 ---
 
-## 为什么需要这个？
+## Why?
 
-OpenClaw默认配置**不安全**。官方文档原话：
+OpenClaw's default configuration is **not secure**. From the official docs:
 
 > *"Running an AI agent with shell access on your machine is... spicy. There is no 'perfectly secure' setup."*
 
-具体风险：
-- SSH密码登录暴露 → 暴力破解
-- Gateway端口公网可达 → 未授权访问
-- API Key明文存储 → 泄露风险
-- Session日志明文 → 隐私泄露
-- 全部流量走最贵模型 → 烧钱
+Specific risks:
+- SSH password login enabled → brute force attacks
+- Gateway port exposed to the internet → unauthorized access
+- API keys stored in plaintext → credential leaks
+- Session logs unencrypted → privacy exposure
+- All traffic routed through the most expensive model → money burned
 
-**本仓库提供一套经过实战验证的加固方案。**
+**This repo provides a battle-tested hardening playbook.**
 
 ---
 
-## 快速开始
+## Quick Start
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/openclaw-hardening.git
+git clone https://github.com/jzOcb/openclaw-hardening.git
 cd openclaw-hardening
 
-# 1. 审计当前安全状况
+# 1. Audit your current security posture
 bash security/audit.sh
 
-# 2. 一键加固（交互式，每步确认）
+# 2. One-click hardening (interactive, confirms each step)
 sudo bash security/harden.sh
 
-# 3. 应用Gateway安全配置
+# 3. Apply secure Gateway config
 cp config/openclaw-secure.json5 ~/.openclaw/openclaw.json.example
-# 手动合并到你的 openclaw.json
+# Manually merge into your openclaw.json
 
-# 4. 安装推荐skills
+# 4. Install recommended skills
 bash setup/install-skills.sh
 ```
 
 ---
 
-## 📁 仓库结构
+## 📁 Repo Structure
 
 ```
 openclaw-hardening/
-├── README.md                    # 你在看的这个
+├── README.md                    # Chinese docs
+├── README_EN.md                 # English docs (you are here)
 ├── security/
-│   ├── audit.sh                 # 安全审计（9项检查）
-│   └── harden.sh                # 一键加固（UFW+SSH+fail2ban+Tailscale）
+│   ├── audit.sh                 # Security audit (9 checks)
+│   └── harden.sh                # One-click hardening (UFW+SSH+fail2ban+Tailscale)
 ├── config/
-│   ├── openclaw-secure.json5    # Gateway安全配置模板
-│   └── token-optimization.json5 # Token优化配置模板
+│   ├── openclaw-secure.json5    # Secure Gateway config template
+│   └── token-optimization.json5 # Token optimization config template
 ├── setup/
-│   └── install-skills.sh        # 推荐skills一键安装
+│   └── install-skills.sh        # Recommended skills installer
 └── docs/
-    ├── SECURITY.md              # 安全加固详解
-    ├── TOKEN-OPTIMIZATION.md    # Token优化详解
-    └── MODEL-ROUTING.md         # 多模型配置指南
+    ├── SECURITY.md              # Security deep dive
+    ├── TOKEN-OPTIMIZATION.md    # Token cost optimization
+    └── MODEL-ROUTING.md         # Multi-model routing guide
 ```
 
 ---
 
-## 🛡️ 安全加固
+## 🛡️ Security Hardening
 
-### audit.sh — 审计脚本
+### audit.sh — Security Audit
 
-检查9项安全指标：
+Checks 9 security indicators:
 
-| # | 检查项 | 说明 |
-|---|--------|------|
-| 1 | SSH配置 | 端口、密码登录、Root登录 |
-| 2 | 防火墙 | UFW是否启用 |
-| 3 | fail2ban | 暴力破解防护 |
-| 4 | 开放端口 | 不必要的端口暴露 |
-| 5 | Gateway配置 | 绑定地址、认证模式 |
-| 6 | Tailscale | 安全远程访问 |
-| 7 | 凭证存储 | API Key明文检查 |
-| 8 | 文件权限 | 配置和日志文件权限 |
-| 9 | 浏览器控制 | 端口18791暴露检查 |
+| # | Check | What it looks for |
+|---|-------|-------------------|
+| 1 | SSH config | Port, password auth, root login |
+| 2 | Firewall | UFW enabled and configured |
+| 3 | fail2ban | Brute force protection active |
+| 4 | Open ports | Unnecessary port exposure |
+| 5 | Gateway config | Bind address, auth mode |
+| 6 | Tailscale | Secure remote access setup |
+| 7 | Credential storage | Plaintext API keys |
+| 8 | File permissions | Config and log file permissions |
+| 9 | Browser control | Port 18791 exposure |
 
 ```bash
 bash security/audit.sh
 ```
 
-### harden.sh — 加固脚本
+### harden.sh — Hardening Script
 
-交互式执行，每步确认：
+Interactive execution — confirms before each step:
 
-1. **UFW防火墙** — 只开SSH端口，拒绝其他入站
-2. **SSH加固** — 改端口、禁密码、禁Root、限重试
-3. **fail2ban** — 3次失败封IP 1小时
-4. **Tailscale引导** — 安全远程访问（替代公网暴露）
+1. **UFW Firewall** — Allow SSH only, deny all other inbound
+2. **SSH Hardening** — Custom port, disable password auth, disable root, limit retries
+3. **fail2ban** — Ban IP after 3 failures for 1 hour
+4. **Tailscale Setup** — Secure remote access (replaces public port exposure)
 
 ```bash
 sudo bash security/harden.sh
 ```
 
-> ⚠️ **重要：** 跑harden.sh时保持当前SSH连接，先开第二个窗口测试新端口！
+> ⚠️ **Important:** Keep your current SSH session open while running harden.sh. Open a second terminal to test the new port before closing!
 
 ---
 
-## 💰 Token优化
+## 💰 Token Optimization
 
-### 问题
+### The Problem
 
-OpenClaw默认用同一个模型处理所有任务。如果你用的是Claude Opus，每次心跳、每个sub-agent都在烧最贵的token。
+OpenClaw defaults to using the same model for everything. If you're on Claude Opus, every heartbeat, every sub-agent, every routine check burns premium tokens.
 
-### 方案：模型分层
+### The Solution: Model Tiering
 
-| 任务类型 | 推荐模型 | 相对成本 |
-|---------|---------|---------|
-| 主对话 | Claude Opus 4.5 | $$$$$ |
-| Sub-agent | Claude Sonnet 4 | $ |
-| 心跳扫描 | Claude Sonnet 4 | $ |
+| Task Type | Recommended Model | Relative Cost |
+|-----------|------------------|---------------|
+| Main conversation | Claude Opus 4.5 | $$$$$ |
+| Sub-agents | Claude Sonnet 4 | $ |
+| Heartbeat checks | Claude Sonnet 4 | $ |
 | Fallback | Claude Sonnet 4 | $ |
 
-### 配置
+### Configuration
 
-将以下内容合并到 `~/.openclaw/openclaw.json`：
+Merge into `~/.openclaw/openclaw.json`:
 
 ```json5
 {
   agents: {
     defaults: {
-      // 主模型
+      // Primary model
       model: { primary: "anthropic/claude-opus-4-5" },
       
-      // Sub-agent用便宜模型
+      // Cheaper model for sub-agents
       subagents: { model: "anthropic/claude-sonnet-4" },
       
-      // Fallback链（主模型限流时降级）
+      // Fallback chain (degrades when primary is rate-limited)
       fallbacks: ["anthropic/claude-sonnet-4"],
       
-      // 心跳间隔（55min保持1h缓存热）
+      // Heartbeat interval (55min keeps 1h cache warm)
       heartbeat: { every: "55m" },
       
-      // 自动裁剪旧tool输出
+      // Auto-prune old tool outputs
       contextPruning: { mode: "cache-ttl", ttl: "1h" },
     }
   }
 }
 ```
 
-### 效果
+### Expected Savings
 
-- 心跳不再烧Opus → **省5x**
-- Sub-agent自动用Sonnet → **省5x**
-- Cache warming减少重复缓存 → **省cache write费用**
-- 预估总体节省 **30-50%**
+- Heartbeats no longer burn Opus → **5x cheaper**
+- Sub-agents auto-route to Sonnet → **5x cheaper**
+- Cache warming reduces duplicate writes → **saves cache write costs**
+- Estimated overall savings: **30–50%**
 
-### 进阶：手动切换
+### Manual Model Switching
 
-在聊天中随时切换模型：
+Switch models on the fly in chat:
 ```
-/model              # 搜索可用模型
-/model sonnet       # 切到Sonnet
-/new                # 建议切模型前开新窗口
+/model              # Search available models
+/model sonnet       # Switch to Sonnet
+/new                # Recommended: start new session before switching
 ```
-
-> 💡 来源：[歸藏(@op7418)的Clawdbot教程](https://x.com/op7418/status/2017647987854610930)
 
 ---
 
-## 🔌 推荐Skills
+## 🔌 Recommended Skills
 
-我们精选了15个高价值skills：
+15 curated high-value skills:
 
-| 分类 | Skill | 用途 |
-|------|-------|------|
-| 安全 | clawdbot-security-suite | 命令消毒、模式检测 |
-| 基础设施 | digital-ocean | DO服务器管理 |
-| 基础设施 | tailscale | Tailscale网络管理 |
-| 金融 | polymarket | 预测市场数据 |
-| 金融 | ibkr-trader | IBKR交易自动化 |
-| 金融 | yahoo-finance | 股票财务数据 |
-| 搜索 | brave-search | Brave搜索API |
-| 搜索 | tavily | AI优化搜索 |
-| 搜索 | last30days | 近30天Reddit/X/Web |
-| 工具 | duckdb-en | SQL数据分析 |
-| 工具 | youtube-summarizer | YouTube摘要 |
-| 工具 | auto-updater | 自动更新 |
-| 工具 | search | 通用网页搜索 |
-| 维护 | skills-audit | Skills安全审计 |
-| 文档 | clawddocs | 官方文档专家 |
+| Category | Skill | Purpose |
+|----------|-------|---------|
+| Security | clawdbot-security-suite | Command sanitization, pattern detection |
+| Infra | digital-ocean | DigitalOcean server management |
+| Infra | tailscale | Tailscale network management |
+| Finance | polymarket | Prediction market data |
+| Finance | ibkr-trader | IBKR trading automation |
+| Finance | yahoo-finance | Stock & financial data |
+| Search | brave-search | Brave Search API |
+| Search | tavily | AI-optimized search |
+| Search | last30days | Recent Reddit/X/Web results |
+| Tools | duckdb-en | SQL data analysis |
+| Tools | youtube-summarizer | YouTube video summaries |
+| Tools | auto-updater | Auto-update OpenClaw |
+| Tools | search | General web search |
+| Maintenance | skills-audit | Skills security audit |
+| Docs | clawddocs | Official docs expert |
 
 ```bash
 bash setup/install-skills.sh
@@ -197,25 +196,25 @@ bash setup/install-skills.sh
 
 ---
 
-## 🙏 致谢
+## 🙏 Credits
 
-- [OpenClaw官方安全文档](https://docs.clawd.bot)
-- [歸藏(@op7418)](https://x.com/op7418) — 模型配置教程
-- [huangserva(@servasyy_ai)](https://x.com/servasyy_ai) — 安全隐患深度分析
-- [VoltAgent/awesome-openclaw-skills](https://github.com/VoltAgent/awesome-openclaw-skills) — Skills目录
+- [OpenClaw Official Security Docs](https://docs.clawd.bot)
+- [歸藏 (@op7418)](https://x.com/op7418) — Model configuration tutorial
+- [huangserva (@servasyy_ai)](https://x.com/servasyy_ai) — Security vulnerability deep dive
+- [VoltAgent/awesome-openclaw-skills](https://github.com/VoltAgent/awesome-openclaw-skills) — Skills directory
 
 ---
 
 ## 📜 License
 
-MIT — 随便用，注明出处就好。
+MIT — Use freely, attribution appreciated.
 
 ---
 
-## 🤝 贡献
+## 🤝 Contributing
 
-欢迎PR！特别是：
-- 更多安全检查项
-- 其他云平台的加固脚本（AWS、Hetzner等）
-- 更多Token优化技巧
-- 国产模型配置指南（Kimi、Minimax、GLM）
+PRs welcome! Especially:
+- Additional security checks
+- Hardening scripts for other cloud providers (AWS, Hetzner, etc.)
+- More token optimization techniques
+- Model routing configs for other providers (OpenAI, DeepSeek, Gemini, etc.)
