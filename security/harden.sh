@@ -6,7 +6,8 @@
 #   1. Install & enable UFW firewall
 #   2. Harden SSH (disable password, change port)
 #   3. Install fail2ban
-#   4. Guide Tailscale install
+#   4. Enable auto security updates
+#   5. Guide Tailscale install
 #
 # Usage: sudo bash harden.sh
 # Optional: SSH_PORT=2222 sudo bash harden.sh
@@ -171,10 +172,26 @@ systemctl restart fail2ban
 echo -e "${GREEN}✅ fail2ban enabled (3 attempts → 1h ban)${NC}"
 
 # ============================================
-# STEP 4: Tailscale
+# STEP 4: Auto Security Updates
 # ============================================
 echo ""
-echo -e "${YELLOW}[4/4] Tailscale${NC}"
+echo -e "${YELLOW}[4/5] Auto Security Updates${NC}"
+
+if ! dpkg -l | grep -q unattended-upgrades; then
+    echo "Installing unattended-upgrades..."
+    apt-get install -y unattended-upgrades
+    echo unattended-upgrades unattended-upgrades/enable_auto_updates boolean true | debconf-set-selections
+    dpkg-reconfigure -f noninteractive unattended-upgrades
+    echo -e "${GREEN}✅ Auto-updates enabled${NC}"
+else
+    echo -e "${GREEN}✅ Already configured${NC}"
+fi
+
+# ============================================
+# STEP 5: Tailscale
+# ============================================
+echo ""
+echo -e "${YELLOW}[5/5] Tailscale${NC}"
 
 if command -v tailscale &>/dev/null; then
     echo -e "${GREEN}✅ Already installed${NC}"
