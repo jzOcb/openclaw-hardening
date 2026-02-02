@@ -25,20 +25,6 @@ Specific risks:
 
 ---
 
-## 🙏 Acknowledgments
-
-This project builds upon **[Tom Crawshaw](https://x.com/tomcrawshaw01)**'s excellent security guide: [*"The Secure Way to Self-Host OpenClaw on a VPS"*](https://x.com/tomcrawshaw01/status/2018348937208627380)
-
-Tom's article (31.4K+ views, 876 bookmarks) highlighted the critical security gap in default OpenClaw deployments and provided a step-by-step hardening guide. This toolkit extends his approach with:
-- Automated security verification (`verify-hidden.sh`)
-- Auto-update configuration
-- Complete hardening script with all 5 security layers
-- Token optimization strategies
-
-**Recommended:** Watch [Tom's video walkthrough](https://youtu.be/qIJXGLfoxyg) for a live demonstration of the security setup process.
-
----
-
 ## Quick Start
 
 ```bash
@@ -212,6 +198,7 @@ bash setup/install-skills.sh
 
 ## 🙏 Credits
 
+- [Tom Crawshaw (@tomcrawshaw01)](https://x.com/tomcrawshaw01) — [Security hardening guide](https://x.com/tomcrawshaw01/status/2018348937208627380) (31.4K views) & [video walkthrough](https://youtu.be/qIJXGLfoxyg)
 - [OpenClaw Official Security Docs](https://docs.clawd.bot)
 - [歸藏 (@op7418)](https://x.com/op7418) — Model configuration tutorial
 - [huangserva (@servasyy_ai)](https://x.com/servasyy_ai) — Security vulnerability deep dive

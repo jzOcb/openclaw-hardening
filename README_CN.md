@@ -25,20 +25,6 @@ OpenClaw默认配置**不安全**。官方文档原话：
 
 ---
 
-## 🙏 致谢
-
-本项目基于 **[Tom Crawshaw](https://x.com/tomcrawshaw01)** 的优秀安全指南：[*"The Secure Way to Self-Host OpenClaw on a VPS"*](https://x.com/tomcrawshaw01/status/2018348937208627380)
-
-Tom 的文章（31.4K+ 浏览，876 收藏）揭示了 OpenClaw 默认部署的严重安全漏洞，并提供了详细的加固步骤。本工具包在其基础上扩展了：
-- 自动化安全验证脚本（`verify-hidden.sh`）
-- 自动更新配置
-- 完整的5层安全加固脚本
-- Token优化策略
-
-**推荐观看：** [Tom 的视频教程](https://youtu.be/qIJXGLfoxyg) 完整演示安全配置流程。
-
----
-
 ## 快速开始
 
 ```bash
@@ -213,6 +199,7 @@ bash setup/install-skills.sh
 
 ## 🙏 致谢
 
+- [Tom Crawshaw (@tomcrawshaw01)](https://x.com/tomcrawshaw01) — [安全加固指南](https://x.com/tomcrawshaw01/status/2018348937208627380) (31.4K浏览) & [视频教程](https://youtu.be/qIJXGLfoxyg)
 - [OpenClaw官方安全文档](https://docs.clawd.bot)
 - [歸藏(@op7418)](https://x.com/op7418) — 模型配置教程
 - [huangserva(@servasyy_ai)](https://x.com/servasyy_ai) — 安全隐患深度分析
