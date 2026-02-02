@@ -1,0 +1,9 @@
+{
+  "name": "openclaw-hardening",
+  "version": "1.0.0",
+  "description": "Production-ready security hardening for OpenClaw/Clawdbot VPS deployments. 5-layer security: firewall, SSH hardening, fail2ban, auto-updates, Tailscale.",
+  "author": "JZ",
+  "keywords": ["security", "hardening", "openclaw", "clawdbot", "vps", "tailscale", "firewall"],
+  "category": "security",
+  "license": "MIT"
+}

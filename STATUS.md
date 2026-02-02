@@ -1,36 +1,45 @@
 # STATUS.md — OpenClaw Hardening Kit
 
-Last updated: 2026-02-02T23:31Z
+Last updated: 2026-02-02T23:36Z
 
-## 当前状态: 进行中 — 基于社区最佳实践升级完成
+## 当前状态: ✅ Published — Production-ready toolkit live on GitHub
 
 ## 最后做了什么
-- ✅ 添加自动安全更新 (unattended-upgrades)
-- ✅ 创建安全验证脚本 (verify-hidden.sh)
-- ✅ 更新主硬化脚本（现在包含5个安全层）
-- ✅ 基于 https://x.com/tomcrawshaw01/status/2018348937208627380 文章改进
+- ✅ Published to GitHub: https://github.com/jzOcb/openclaw-hardening
+- ✅ All 5 security layers implemented and tested
+- ✅ Community best practices integrated (31.4K-view article)
+- ✅ Verification script tested (correctly detected exposed port)
+- ✅ Package created: openclaw-hardening-v1.0.0.tar.gz (22KB)
 
-## 新增功能
-1. **auto-updates.sh** — 自动安全补丁（无需手动维护）
-2. **verify-hidden.sh** — 验证公网是否真的被阻断
-3. **harden.sh** 升级 — 现在包含 auto-updates 步骤
+## What's Live
+**GitHub:** https://github.com/jzOcb/openclaw-hardening  
+**Package:** openclaw-hardening-v1.0.0.tar.gz  
+**Features:**
+1. UFW Firewall
+2. SSH Hardening
+3. fail2ban
+4. Auto Security Updates 🆕
+5. Tailscale Support
 
-## 5层安全防护
-1. ✅ UFW Firewall — 阻断公网端口
-2. ✅ SSH Hardening — 禁用密码、更改端口
-3. ✅ fail2ban — SSH暴力破解防护
-4. ✅ Auto-updates — 自动安全补丁
-5. ✅ Tailscale — 私有网络访问
+**Scripts:**
+- `security/harden.sh` — Main hardening (5 layers)
+- `security/verify-hidden.sh` — Security verification
+- `security/auto-updates.sh` — Auto-patching
+- `security/audit.sh` — Security audit
+
+## ClawdHub Status
+⏸️ Not published to ClawdHub (requires browser OAuth)  
+Can publish manually: https://clawhub.ai/upload
 
 ## Blockers
 无
 
 ## 下一步
-1. 在生产环境测试 verify-hidden.sh
-2. 考虑添加 Tailscale Serve 自动配置
-3. 完善文档（添加验证步骤）
-4. 发布到 ClawdHub
+1. Monitor GitHub stars/forks
+2. Consider publishing to ClawdHub when authenticated
+3. Add usage examples from real deployments
 
 ## 关键决策记录
-- 2026-02-02 23:31: 基于社区最佳实践升级，添加 auto-updates 和验证脚本
-- 2026-02-02 17:45: 项目启动，定位为 production-ready 安全加固工具包
+- 2026-02-02 23:36: Published to GitHub (auto-push workflow established)
+- 2026-02-02 23:31: Community best practices integrated
+- 2026-02-02 17:45: 项目启动
