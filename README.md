@@ -51,8 +51,8 @@ bash setup/install-skills.sh
 
 ```
 openclaw-hardening/
-├── README.md                    # Chinese docs
-├── README_EN.md                 # English docs (you are here)
+├── README.md                    # English docs (you are here)
+├── README_CN.md                 # 中文文档
 ├── security/
 │   ├── audit.sh                 # Security audit (9 checks)
 │   └── harden.sh                # One-click hardening (UFW+SSH+fail2ban+Tailscale)

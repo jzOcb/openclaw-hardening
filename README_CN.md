@@ -2,7 +2,7 @@
 
 安全加固 + Token优化，一键搞定你的 OpenClaw / Clawdbot 部署。
 
-[🇬🇧 English](./README.md)
+[🇬🇧 English README](./README.md)
 
 > **适用人群：** 在VPS/云服务器上跑OpenClaw的用户。本地Mac用户也可参考Token优化部分。
 
@@ -51,7 +51,8 @@ bash setup/install-skills.sh
 
 ```
 openclaw-hardening/
-├── README.md                    # 你在看的这个
+├── README.md                    # English docs (主页)
+├── README_CN.md                 # 中文文档（你在看的这个）
 ├── security/
 │   ├── audit.sh                 # 安全审计（9项检查）
 │   └── harden.sh                # 一键加固（UFW+SSH+fail2ban+Tailscale）
